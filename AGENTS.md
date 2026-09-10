@@ -496,6 +496,12 @@ Two cases MUST use the full Malay storytelling format instead
 1. Post-change explanations — after finishing or changing code.
 2. Code questions — when the user asks about code or similar.
 
+## Explanation Style (wajib bila menerangkan)
+
+Bila memberi penerangan pasca-kerja atau menjawab soalan kod, WAJIB ikut
+format dalam `docs/explain-style.md` (BM santai, analogi dunia nyata +
+dialog bagi setiap konsep kod). Komunikasi lain kekal ringkas.
+
 ## Session Handoff & Continuity (WAJIB hujung setiap sesi)
 
 AI does not remember past sessions. Every session MUST close with these steps.
