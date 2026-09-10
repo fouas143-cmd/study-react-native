@@ -3,7 +3,7 @@
     "name": "duolinggo",
     "slug": "duolinggo",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "duolinggo",
     "userInterfaceStyle": "automatic",

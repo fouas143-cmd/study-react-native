@@ -1,9 +1,13 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
 import { images } from "@/constants/images";
+import { StatusBar } from "expo-status-bar";
+import { Image, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Onboarding() {
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
+  const mascotHeight = isLandscape ? height * 0.35 : 700;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar style="dark" />
@@ -25,10 +29,11 @@ export default function Onboarding() {
           Mari kita mulakan dengan pelajaran baru.
         </Text>
 
-        <View className="flex-1 items-center justify-center pt-8">
+        <View className="flex-1 items-center justify-center pt-6">
           <Image
             source={images.mascotOnboarding}
-            className="h-[400px] w-full"
+            className="w-full"
+            style={{ height: mascotHeight }}
             resizeMode="contain"
             accessibilityIgnoresInvertColors
           />
@@ -36,13 +41,13 @@ export default function Onboarding() {
 
         <TouchableOpacity
           className="flex-row items-center justify-center gap-2 rounded-2xl bg-lingua-purple px-6 py-4"
-          activeOpacity={0.85}
+          activeOpacity={0.7}
           accessibilityRole="button"
-          accessibilityLabel="Mulakan Pelajaran"
+          accessibilityLabel="Mulakan sekarang"
           onPress={() => {}}
         >
           <Text className="font-poppins-semibold text-[17px] leading-[24px] text-white">
-            Mulakan Pelajaran
+            Mulakan Sekarang
           </Text>
           <Text className="text-[22px] leading-[24px] text-white">›</Text>
         </TouchableOpacity>
