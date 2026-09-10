@@ -1,0 +1,139 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+@import "nativewind/theme";
+
+@source "./src/**/*.{ts,tsx}";
+
+/* ── Lingua design tokens (mirror src/theme/*.ts) ─────────────── */
+@theme {
+  /* Brand */
+  --color-lingua-purple: #6c4ef5;
+  --color-lingua-deep-purple: #5b3bf6;
+  --color-lingua-blue: #4d8bff;
+  --color-lingua-green: #21c16b;
+
+  /* Semantic */
+  --color-success: #21c16b;
+  --color-warning: #ffc800;
+  --color-streak: #ff8a00;
+  --color-error: #ff4d4f;
+  --color-info: #4d8bff;
+
+  /* Neutrals */
+  --color-ink: #0d132b;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-surface: #f6f7fb;
+  --color-background: #ffffff;
+
+  /* Font family — Poppins, one file per weight */
+  --font-sans: "Poppins-Regular", system-ui, sans-serif;
+  --font-poppins: "Poppins-Regular", system-ui, sans-serif;
+  --font-poppins-medium: "Poppins-Medium", system-ui, sans-serif;
+  --font-poppins-semibold: "Poppins-SemiBold", system-ui, sans-serif;
+  --font-poppins-bold: "Poppins-Bold", system-ui, sans-serif;
+
+  /* Radius */
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+}
+
+/* ── Typography utilities (BEM: .type--<variant>) ─────────────── */
+/* Usage: <Text className="type--h1 text-ink">Title</Text> */
+
+@utility type--h1 {
+  font-family: "Poppins-Bold", system-ui, sans-serif;
+  font-size: 32px;
+  line-height: 38.4px;
+  font-weight: 700;
+}
+
+@utility type--h2 {
+  font-family: "Poppins-SemiBold", system-ui, sans-serif;
+  font-size: 24px;
+  line-height: 31.2px;
+  font-weight: 600;
+}
+
+@utility type--h3 {
+  font-family: "Poppins-SemiBold", system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+@utility type--h4 {
+  font-family: "Poppins-Medium", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 22.4px;
+  font-weight: 500;
+}
+
+@utility type--body-large {
+  font-family: "Poppins-Regular", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 25.6px;
+  font-weight: 400;
+}
+
+@utility type--body-medium {
+  font-family: "Poppins-Regular", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 22.4px;
+  font-weight: 400;
+}
+
+@utility type--body-small {
+  font-family: "Poppins-Regular", system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 20.8px;
+  font-weight: 400;
+}
+
+@utility type--caption {
+  font-family: "Poppins-Regular", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 15.4px;
+  font-weight: 400;
+}
+
+/* ── Surface utilities (BEM: .card, .btn + --modifier) ────────── */
+/* Usage: <View className="card" />, <View className="btn btn--primary" /> */
+
+@utility card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border-width: 1px;
+  border-color: #e5e7eb;
+}
+
+@utility card--raised {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border-width: 1px;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(13, 19, 43, 0.08);
+  elevation: 4;
+}
+
+@utility btn {
+  border-radius: 9999px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 24px;
+  padding-right: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+@utility btn--primary {
+  background-color: #6c4ef5;
+}
+
+@utility btn--outline {
+  background-color: #ffffff;
+  border-width: 1px;
+  border-color: #e5e7eb;
+}

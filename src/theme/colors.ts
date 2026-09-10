@@ -1,0 +1,31 @@
+/**
+ * Lingua design tokens — Colors
+ * Source: prompt_material/01-design-system.png
+ * Single source of truth for TS usage (JS-driven styles, charts, etc).
+ * CSS utilities in global.css mirror these values via @theme.
+ */
+
+export const colors = {
+  brand: {
+    purple: "#6C4EF5",
+    deepPurple: "#5B3BF6",
+    blue: "#4D8BFF",
+    green: "#21C16B",
+  },
+  semantic: {
+    success: "#21C16B",
+    warning: "#FFC800",
+    streak: "#FF8A00",
+    error: "#FF4D4F",
+    info: "#4D8BFF",
+  },
+  neutral: {
+    textPrimary: "#0D132B",
+    textSecondary: "#6B7280",
+    border: "#E5E7EB",
+    surface: "#F6F7FB",
+    background: "#FFFFFF",
+  },
+} as const;
+
+export type Colors = typeof colors;
