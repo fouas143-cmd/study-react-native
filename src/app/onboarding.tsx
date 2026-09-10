@@ -1,4 +1,5 @@
 import { images } from "@/constants/images";
+import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Image, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -44,7 +45,7 @@ export default function Onboarding() {
           activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Mulakan sekarang"
-          onPress={() => {}}
+          onPress={() => router.push("/sign-up")}
         >
           <Text className="font-poppins-semibold text-[17px] leading-[24px] text-white">
             Mulakan Sekarang

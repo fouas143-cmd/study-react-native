@@ -9,6 +9,7 @@ import icon from "../../assets/assets/images/icon.png";
 import mascotAuth from "../../assets/assets/images/mascot-auth.png";
 import mascotLogo from "../../assets/assets/images/moscot-logo.png";
 import mascotOnboarding from "../../assets/assets/images/mascot-onboarding.png";
+import mascotSignup from "../../assets/assets/images/mascot-signup.png";
 import mascotWelcome from "../../assets/assets/images/mascot-welcome.png";
 import palace from "../../assets/assets/images/palace.png";
 import splashIcon from "../../assets/assets/images/splash-icon.png";
@@ -21,6 +22,7 @@ export const images = {
   mascotAuth,
   mascotLogo,
   mascotOnboarding,
+  mascotSignup,
   mascotWelcome,
   palace,
   splashIcon,
