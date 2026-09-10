@@ -25,10 +25,10 @@ export default function Onboarding() {
           Mari kita mulakan dengan pelajaran baru.
         </Text>
 
-        <View className="items-center justify-center py-8">
+        <View className="items-center justify-center py-4">
           <Image
             source={images.mascotOnboarding}
-            className="h-[280px] w-[280px]"
+            className="h-[340px] w-full"
             resizeMode="contain"
             accessibilityIgnoresInvertColors
           />
