@@ -1,10 +1,11 @@
 # HANDOFF — papan putih semasa
 
-> Papan putih: tulis semula tiap hujung sesi. Sejarah kekal dalam Git
-> (`git log -- HANDOFF.md`). Arkib sesi: `docs/handoff/`. Keputusan kekal:
-> `docs/adr/`. Jangan simpan rahsia di sini.
+> Papan putih: ditulis semula selepas SETIAP unit kerja siap (bukan hujung
+> sesi). Sejarah kekal dalam Git (`git log -- HANDOFF.md`). Arkib sesi:
+> `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
+> Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-10, selepas commit `391d26d`)
+## Keadaan semasa (dikemas kini: 2026-09-10, selepas commit `7e1244a`)
 
 - Route hidup: `/` (`src/app/index.tsx`, ada link "Open onboarding")
   dan `/onboarding` (`src/app/onboarding.tsx`).
@@ -18,6 +19,9 @@
   `app.json` orientation = `default` (boleh pusing).
 - Verify terakhir: `npx tsc --noEmit` bersih, `npm run lint` bersih.
 - Tiada test dalam repo (tiada infra test).
+- Sistem continuity pilihan C HIDUP: peraturan rekod berterusan dalam
+  `AGENTS.md`, gaya penerangan berpusat `docs/explain-style.md`
+  (ADR-0004), ADR-0001–0003, nota `docs/handoff/2026-09-10.md`.
 
 ## TODO hidup
 

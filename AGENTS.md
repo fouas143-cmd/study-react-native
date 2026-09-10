@@ -502,22 +502,31 @@ Bila memberi penerangan pasca-kerja atau menjawab soalan kod, WAJIB ikut
 format dalam `docs/explain-style.md` (BM santai, analogi dunia nyata +
 dialog bagi setiap konsep kod). Komunikasi lain kekal ringkas.
 
-## Session Handoff & Continuity (WAJIB hujung setiap sesi)
+## Session Record (automatik, tanpa disuruh)
 
-AI does not remember past sessions. Every session MUST close with these steps.
-Skipping them counts as unfinished work.
+AI does not remember past sessions, and the user will NEVER order a
+handoff — they open a new session whenever they like. Recording therefore
+runs continuously, not at "session end" (which may never come).
 
-1. Rewrite the "current state" section of root `HANDOFF.md`: what this
-   session finished, live TODOs, and traps (e.g. filenames that must not
-   be "fixed", misleading props, changes needing a full restart).
-2. Heavy decisions (debated / hard to reverse) MUST be recorded as a new
-   ADR in `docs/adr/` — format `NNNN-short-title.md`. Never edit or delete
-   an old ADR; a reversed decision = a new ADR referencing the old one.
-3. Commit everything in one clean commit without asking permission
+After EVERY finished unit of work (screen, asset, fix, decision):
+
+1. Commit it immediately in one clean message. Never ask permission
    (standing rule: auto-commit stays on).
+2. Immediately refresh the "current state" section of root `HANDOFF.md`
+   (3 lines: what finished, new TODOs, new traps). Trivial sub-5-minute
+   tweaks may fold into the next update.
+
+When a heavy decision lands (debated / hard to reverse), record it as a
+new ADR in `docs/adr/` — format `NNNN-short-title.md`. Never edit or
+delete an old ADR; a reversed decision = a new ADR referencing the old one.
+
+Every session MUST start by reading `HANDOFF.md` plus `git status` /
+`git log --oneline -5` before touching code, so the previous harness's
+state is picked up even if it never got a closing step.
 
 File rules:
-- `HANDOFF.md` = whiteboard (rewritten each session, history lives in Git).
+- `HANDOFF.md` = whiteboard (rewritten continuously, history lives in Git).
 - `docs/handoff/YYYY-MM-DD.md` = session archive note (append only).
 - `docs/adr/` = permanent record (append only).
 - Never store secrets (keys, tokens, passwords) in any of the above.
+- Skipping recording counts as unfinished work.
