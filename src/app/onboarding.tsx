@@ -27,7 +27,7 @@ export default function Onboarding() {
 
         <View className="items-center justify-center py-8">
           <Image
-            source={images.mascotWelcome}
+            source={images.mascotOnboarding}
             className="h-[280px] w-[280px]"
             resizeMode="contain"
             accessibilityIgnoresInvertColors
