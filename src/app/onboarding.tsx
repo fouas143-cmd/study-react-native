@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Onboarding() {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
-  const mascotHeight = isLandscape ? height * 0.35 : 700;
+  const mascotHeight = isLandscape ? height * 0.55 : 700;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>

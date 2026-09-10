@@ -484,3 +484,34 @@ Before every feature implementation:
 - Follow it strictly
 - Build clean, simple, teachable code
 - Replicate UI exactly when designs are provided
+
+---
+
+## Communication Style Exception (Storytelling)
+
+The "Be concise" rule above applies to status updates and technical Q&A.
+Two cases MUST use the full Malay storytelling format instead
+(simple tone, real-world analogies with dialogue for every code concept):
+
+1. Post-change explanations — after finishing or changing code.
+2. Code questions — when the user asks about code or similar.
+
+## Session Handoff & Continuity (WAJIB hujung setiap sesi)
+
+AI does not remember past sessions. Every session MUST close with these steps.
+Skipping them counts as unfinished work.
+
+1. Rewrite the "current state" section of root `HANDOFF.md`: what this
+   session finished, live TODOs, and traps (e.g. filenames that must not
+   be "fixed", misleading props, changes needing a full restart).
+2. Heavy decisions (debated / hard to reverse) MUST be recorded as a new
+   ADR in `docs/adr/` — format `NNNN-short-title.md`. Never edit or delete
+   an old ADR; a reversed decision = a new ADR referencing the old one.
+3. Commit everything in one clean commit without asking permission
+   (standing rule: auto-commit stays on).
+
+File rules:
+- `HANDOFF.md` = whiteboard (rewritten each session, history lives in Git).
+- `docs/handoff/YYYY-MM-DD.md` = session archive note (append only).
+- `docs/adr/` = permanent record (append only).
+- Never store secrets (keys, tokens, passwords) in any of the above.
