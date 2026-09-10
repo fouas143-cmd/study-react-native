@@ -44,6 +44,6 @@
    — NativeWind tak proses nilai berubah masa jalan.
 5. `assets/.../mascot-onboarding.png` ialah PNG telus (key-out manual dari
    JPG). Kalau ganti fail, pastikan kekal RGBA telus.
-6. Peraturan kekal: auto-commit ON (tanpa minta izin), penerangan guna
-   format storytelling Melayu penuh untuk post-change + soalan kod,
-   ringkas untuk lain-lain.
+6. Peraturan kekal: auto-commit ON (tanpa minta izin); penerangan
+   RINGKAS selalu — format storytelling penuh hanya bila pemilik minta
+   ("jelaskan"/"explain"/"terangkan").

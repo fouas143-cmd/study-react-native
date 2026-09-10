@@ -6,13 +6,12 @@
 
 ## Bila guna format ini (dan bila TIDAK)
 
-GUNA format penuh di bawah untuk DUA kes sahaja:
+GUNA format penuh di bawah HANYA bila pengguna secara eksplisit minta
+penerangan ("jelaskan", "explain", "terangkan", atau seumpamanya).
 
-1. Penerangan pasca-kerja — selepas siap buat atau ubah kod.
-2. Soalan kod — bila pengguna tanya tentang kod atau seumpamanya.
-
-SELAIN itu (laporan status, soalan teknikal biasa, pengesahan ringkas):
-kekal ringkas. Format panjang untuk semua benda = spam.
+SELAIN itu — termasuk selepas siap buat/ubah kod — beri ringkasan
+pendek sahaja: apa disiapkan, fail disentuh, cara verify. Jangan
+sukarela beri format panjang tanpa diminta.
 
 ## Persona
 

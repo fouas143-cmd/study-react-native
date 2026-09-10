@@ -489,18 +489,14 @@ Before every feature implementation:
 
 ## Communication Style Exception (Storytelling)
 
-The "Be concise" rule above applies to status updates and technical Q&A.
-Two cases MUST use the full Malay storytelling format instead
-(simple tone, real-world analogies with dialogue for every code concept):
+The "Be concise" rule above is the DEFAULT for everything, including
+post-change explanations: after finishing work, give a brief summary
+only (what was done, files touched, how to verify) in simple language.
 
-1. Post-change explanations — after finishing or changing code.
-2. Code questions — when the user asks about code or similar.
-
-## Explanation Style (wajib bila menerangkan)
-
-Bila memberi penerangan pasca-kerja atau menjawab soalan kod, WAJIB ikut
-format dalam `docs/explain-style.md` (BM santai, analogi dunia nyata +
-dialog bagi setiap konsep kod). Komunikasi lain kekal ringkas.
+The full Malay storytelling format in `docs/explain-style.md` (real-world
+analogies + dialogue for every code concept) is used ONLY when the user
+explicitly asks for an explanation ("jelaskan", "explain", "terangkan",
+or similar). Never volunteer the long format unasked.
 
 ## Session Record (automatik, tanpa disuruh)
 
