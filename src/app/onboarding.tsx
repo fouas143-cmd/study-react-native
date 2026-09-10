@@ -25,16 +25,14 @@ export default function Onboarding() {
           Mari kita mulakan dengan pelajaran baru.
         </Text>
 
-        <View className="items-center justify-center py-4">
+        <View className="flex-1 items-center justify-center pt-8">
           <Image
             source={images.mascotOnboarding}
-            className="h-[340px] w-full"
+            className="h-[400px] w-full"
             resizeMode="contain"
             accessibilityIgnoresInvertColors
           />
         </View>
-
-        <View className="flex-1" />
 
         <TouchableOpacity
           className="flex-row items-center justify-center gap-2 rounded-2xl bg-lingua-purple px-6 py-4"
