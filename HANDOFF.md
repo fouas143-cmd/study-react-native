@@ -5,32 +5,26 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-10, selepas commit `7e1244a`)
+## Keadaan semasa (dikemas kini: 2026-09-10, selepas commit `9987057`)
 
-- Route hidup: `/` (`src/app/index.tsx`, ada link "Open onboarding")
-  dan `/onboarding` (`src/app/onboarding.tsx`).
-- Skrin onboarding: logo parrot (fail `moscot-logo.png` diganti imej parrot
-  baru oleh pemilik) + "duolinggo", tajuk "Pilih kursus
-  anda.", sub "Mari kita mulakan dengan pelajaran baru.", ilustrasi
-  `mascot-onboarding.png` (parrot bubbles, latar TELUS), butang ungu
-  "Mulakan Sekarang". Tiada pagination dots (kehendak pemilik).
-- Maskot responsif: portrait kekal `700`, landscape ikut `height * 0.55`
-  (ditala pemilik dari `0.35` — prinsip peratus kekal, lihat ADR-0003).
-  `app.json` orientation = `default` (boleh pusing).
+- Route hidup: `/`, `/onboarding`, `/sign-up` + `/sign-in` (baru, kongsi
+  `src/components/auth-screen.tsx`; email sahaja, tiada password).
+- Maskot auth `mascot-signup.png` (crop parrot dari design `vzy24e`,
+  latar putih sebati skrin) didaftar dalam `src/constants/images.ts`.
+- Modal verifikasi `verify-code-modal.tsx`: 6 digit, number-pad, KAV kekal
+  atas keyboard, auto `router.replace("/")` pada digit terakhir.
+- Onboarding "Mulakan Sekarang" kini `router.push("/sign-up")` (TODO lama
+  selesai); TODO skrin sign-up (item 3) selesai.
 - Verify terakhir: `npx tsc --noEmit` bersih, `npm run lint` bersih.
-- Tiada test dalam repo (tiada infra test).
-- Sistem continuity pilihan C HIDUP: peraturan rekod berterusan dalam
-  `AGENTS.md`, gaya penerangan berpusat `docs/explain-style.md`
-  (ADR-0004), ADR-0001–0003, nota `docs/handoff/2026-09-10.md`.
 
 ## TODO hidup
 
-1. `onPress` butang onboarding masih kosong (`() => {}`) — sambung ke skrin
-   kursus bila skrin itu wujud.
-2. Kad kursus (Bahasa Sepanyol / Bahasa Jepun, design `117z2d`) belum
+1. Kad kursus (Bahasa Sepanyol / Bahasa Jepun, design `117z2d`) belum
    diimplement — design penuh ada dalam Downloads pemilik.
-3. Skrin sign-up (design `vzy24e`: Create your account) DITANGGUH atas
-   arahan pemilik ("maskot saja") — jangan buat selagi tidak disuruh.
+2. Butang sosial (Google/Facebook/Apple) masih `onPress={() => {}}` —
+   sambung ke Clerk bila auth sebenar dipasang.
+3. Kod verifikasi kini demo sahaja (apa-apa 6 digit diterima) — ganti
+   dengan pengesahan Clerk bila backend sedia.
 
 ## Perangkap (jangan pijak)
 
