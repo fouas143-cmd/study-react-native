@@ -81,7 +81,12 @@ export function VerifyCodeModal({ visible, email, onClose, onVerified }: VerifyC
                   ref={(ref) => {
                     inputs.current[index] = ref;
                   }}
-                  className="h-12 w-12 rounded-xl border border-border bg-surface text-center font-poppins-semibold text-[20px] text-ink"
+                  className="h-12 w-12 rounded-xl border border-border bg-surface font-poppins-semibold text-[20px] text-ink"
+                  // textAlign via style: text-center in className crashes
+                  // react-native-css 3.0.7 (TextInput mapping ships
+                  // nativeStyleMapping { textAlign: true }, but its
+                  // nativeStyleMapping() calls path.split(".") on it).
+                  style={{ textAlign: "center" }}
                   value={digit}
                   onChangeText={(text) => handleChange(text, index)}
                   onKeyPress={({ nativeEvent }) => handleKeyPress(nativeEvent.key, index)}

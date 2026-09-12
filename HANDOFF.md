@@ -5,8 +5,12 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-10, selepas commit `9987057`)
+## Keadaan semasa (dikemas kini: 2026-09-12, fix crash verify-code-modal)
 
+- Modal verifikasi hidup semula: crash `text-center` pada `TextInput`
+  (bug `react-native-css` 3.0.7, bukan kod kita) diatasi dengan
+  `style={{ textAlign: "center" }}` — sila uji semula di simulator iOS.
+- Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
 - Route hidup: `/`, `/onboarding`, `/sign-up` + `/sign-in` (baru, kongsi
   `src/components/auth-screen.tsx`; email sahaja, tiada password).
 - Maskot auth `mascot-signup.png` (crop parrot dari design `vzy24e`,
