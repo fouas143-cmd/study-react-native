@@ -1,4 +1,5 @@
 import { images } from "@/constants/images";
+import { useSignIn, useSignUp } from "@clerk/expo";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -15,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { VerifyCodeModal } from "./verify-code-modal";
 
 type AuthScreenProps = {
+  mode: "sign-in" | "sign-up";
   title: string;
   subtitle: string;
   primaryLabel: string;
@@ -24,8 +26,18 @@ type AuthScreenProps = {
   showPassword?: boolean;
 };
 
+type ClerkFlowError = {
+  longMessage?: string;
+  message?: string;
+} | null;
+
+function firstErrorMessage(error: ClerkFlowError): string {
+  return error?.longMessage ?? error?.message ?? "Something went wrong. Try again.";
+}
+
 /** Shared email + social auth layout used by sign-up and sign-in. */
 export function AuthScreen({
+  mode,
   title,
   subtitle,
   primaryLabel,
@@ -34,14 +46,95 @@ export function AuthScreen({
   footerHref,
   showPassword = false,
 }: AuthScreenProps) {
+  const isSignUp = mode === "sign-up";
+  const { signUp, fetchStatus: signUpStatus } = useSignUp();
+  const { signIn, fetchStatus: signInStatus } = useSignIn();
+
   const [email, setEmail] = useState("alex@gmail.com");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [verifyAttempt, setVerifyAttempt] = useState(0);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const busy = (isSignUp ? signUpStatus : signInStatus) === "fetching";
+
+  function openVerifier() {
+    setVerifyAttempt((attempt) => attempt + 1);
+    setVerifying(true);
+  }
+
+  async function handlePrimary() {
+    if (busy) return;
+    setErrorMsg(null);
+    const emailAddress = email.trim();
+    if (!emailAddress) {
+      setErrorMsg("Enter your email address.");
+      return;
+    }
+
+    if (isSignUp) {
+      if (!password) {
+        setErrorMsg("Enter a password.");
+        return;
+      }
+      const { error } = await signUp.password({ emailAddress, password });
+      if (error) {
+        setErrorMsg(firstErrorMessage(error));
+        return;
+      }
+      if (signUp.status === "complete") {
+        await signUp.finalize();
+        router.replace("/");
+        return;
+      }
+      const { error: sendError } = await signUp.verifications.sendEmailCode();
+      if (sendError) {
+        setErrorMsg(firstErrorMessage(sendError));
+        return;
+      }
+      openVerifier();
+    } else {
+      const { error } = await signIn.emailCode.sendCode({ emailAddress });
+      if (error) {
+        setErrorMsg(firstErrorMessage(error));
+        return;
+      }
+      openVerifier();
+    }
+  }
+
+  async function handleSubmitCode(code: string): Promise<string | null> {
+    if (isSignUp) {
+      const { error } = await signUp.verifications.verifyEmailCode({ code });
+      if (error) return firstErrorMessage(error);
+      if (signUp.status !== "complete") return "Verification incomplete. Try again.";
+      await signUp.finalize();
+    } else {
+      const { error } = await signIn.emailCode.verifyCode({ code });
+      if (error) return firstErrorMessage(error);
+      if (signIn.status !== "complete") return "Additional verification needed. Try again.";
+      await signIn.finalize();
+    }
+    setVerifying(false);
+    router.replace("/");
+    return null;
+  }
+
+  async function handleResend(): Promise<string | null> {
+    if (isSignUp) {
+      const { error } = await signUp.verifications.sendEmailCode();
+      return error ? firstErrorMessage(error) : null;
+    }
+    const { error } = await signIn.emailCode.sendCode();
+    return error ? firstErrorMessage(error) : null;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar style="dark" />
+      {/* Bot-protection mount point required by Clerk on sign-up screens. */}
+      {isSignUp ? <View nativeID="clerk-captcha" /> : null}
       <ScrollView
         className="flex-1 bg-background"
         contentContainerStyle={{ flexGrow: 1 }}
@@ -110,16 +203,23 @@ export function AuthScreen({
           ) : null}
 
           <TouchableOpacity
-            className="mt-4 items-center justify-center rounded-2xl bg-lingua-purple py-4"
+            className={`mt-4 items-center justify-center rounded-2xl bg-lingua-purple py-4 ${busy ? "opacity-60" : ""}`}
             activeOpacity={0.8}
             accessibilityRole="button"
             accessibilityLabel={primaryLabel}
-            onPress={() => setVerifying(true)}
+            onPress={() => void handlePrimary()}
+            disabled={busy}
           >
             <Text className="font-poppins-semibold text-[17px] leading-[24px] text-white">
-              {primaryLabel}
+              {busy ? "Please wait…" : primaryLabel}
             </Text>
           </TouchableOpacity>
+
+          {errorMsg ? (
+            <Text className="mt-3 text-center font-poppins-medium text-[14px] text-error">
+              {errorMsg}
+            </Text>
+          ) : null}
 
           <View className="mt-5 flex-row items-center gap-3">
             <View className="h-px flex-1 bg-border" />
@@ -147,13 +247,12 @@ export function AuthScreen({
       </ScrollView>
 
       <VerifyCodeModal
+        key={verifyAttempt}
         visible={verifying}
-        email={email}
+        email={email.trim()}
         onClose={() => setVerifying(false)}
-        onVerified={() => {
-          setVerifying(false);
-          router.replace("/");
-        }}
+        onSubmitCode={handleSubmitCode}
+        onResend={handleResend}
       />
     </SafeAreaView>
   );

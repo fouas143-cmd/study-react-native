@@ -15,28 +15,58 @@ type VerifyCodeModalProps = {
   visible: boolean;
   email: string;
   onClose: () => void;
-  onVerified: () => void;
+  /** Submits the code to Clerk. Resolves to an error message, or null on success. */
+  onSubmitCode: (code: string) => Promise<string | null>;
+  /** Resends the code. Resolves to an error message, or null on success. */
+  onResend: () => Promise<string | null>;
 };
 
-/** 6-digit email code sheet. Number pad, stays above keyboard, verifies on last digit. */
-export function VerifyCodeModal({ visible, email, onClose, onVerified }: VerifyCodeModalProps) {
+/** 6-digit email code sheet. Number pad, stays above keyboard, submits on last digit. */
+export function VerifyCodeModal({
+  visible,
+  email,
+  onClose,
+  onSubmitCode,
+  onResend,
+}: VerifyCodeModalProps) {
   const [code, setCode] = useState<string[]>(Array(CODE_LENGTH).fill(""));
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [resending, setResending] = useState(false);
   const inputs = useRef<(TextInput | null)[]>([]);
 
   function focusBox(index: number) {
     inputs.current[index]?.focus();
   }
 
+  function clearAndFocusFirst() {
+    setCode(Array(CODE_LENGTH).fill(""));
+    focusBox(0);
+  }
+
+  async function submitCode(fullCode: string) {
+    setSubmitting(true);
+    const error = await onSubmitCode(fullCode);
+    setSubmitting(false);
+    if (error) {
+      setErrorMsg(error);
+      clearAndFocusFirst();
+    }
+    // On success the parent closes the modal and navigates.
+  }
+
   function handleChange(text: string, index: number) {
+    if (submitting) return;
     const digit = text.replace(/[^0-9]/g, "").slice(-1);
     if (!digit) return;
     const next = [...code];
     next[index] = digit;
     setCode(next);
+    setErrorMsg(null);
     if (index < CODE_LENGTH - 1) {
       focusBox(index + 1);
     } else {
-      onVerified();
+      void submitCode(next.join(""));
     }
   }
 
@@ -49,8 +79,21 @@ export function VerifyCodeModal({ visible, email, onClose, onVerified }: VerifyC
     }
   }
 
+  async function handleResend() {
+    if (resending || submitting) return;
+    setResending(true);
+    const error = await onResend();
+    setResending(false);
+    if (error) {
+      setErrorMsg(error);
+    } else {
+      setErrorMsg(null);
+      clearAndFocusFirst();
+    }
+  }
+
   function handleClose() {
-    setCode(Array(CODE_LENGTH).fill(""));
+    if (submitting) return;
     onClose();
   }
 
@@ -94,15 +137,27 @@ export function VerifyCodeModal({ visible, email, onClose, onVerified }: VerifyC
                   maxLength={1}
                   selectTextOnFocus
                   autoFocus={index === 0}
+                  editable={!submitting}
                 />
               ))}
             </View>
 
-            <Pressable className="mt-5 items-center" onPress={handleClose}>
-              <Text className="font-poppins-semibold text-[15px] text-lingua-purple">
-                Cancel
+            {errorMsg ? (
+              <Text className="mt-3 text-center font-poppins-medium text-[14px] text-error">
+                {errorMsg}
               </Text>
-            </Pressable>
+            ) : null}
+
+            <View className="mt-5 flex-row items-center justify-center gap-6">
+              <Pressable onPress={handleClose}>
+                <Text className="font-poppins-semibold text-[15px] text-muted">Cancel</Text>
+              </Pressable>
+              <Pressable onPress={() => void handleResend()} disabled={resending || submitting}>
+                <Text className="font-poppins-semibold text-[15px] text-lingua-purple">
+                  {resending ? "Sending…" : "Resend code"}
+                </Text>
+              </Pressable>
+            </View>
           </Pressable>
         </Pressable>
       </KeyboardAvoidingView>
