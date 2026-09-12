@@ -5,7 +5,12 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-12, fix crash verify-code-modal)
+## Keadaan semasa (dikemas kini: 2026-09-12, password sign-up)
+
+- Sign-up ada kotak Password (ikut gaya kotak Email, `secureTextEntry` +
+  toggle Show/Hide) via prop `showPassword` pada `AuthScreen`; sign-in
+  kekal email sahaja.
+- Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
 
 - Modal verifikasi hidup semula: crash `text-center` pada `TextInput`
   (bug `react-native-css` 3.0.7, bukan kod kita) diatasi dengan
