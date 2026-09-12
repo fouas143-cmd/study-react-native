@@ -5,13 +5,15 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-12, password sign-up)
+## Keadaan semasa (dikemas kini: 2026-09-12, Clerk auth)
 
-- Sign-up ada kotak Password (ikut gaya kotak Email, `secureTextEntry` +
-  toggle Show/Hide) via prop `showPassword` pada `AuthScreen`; sign-in
-  kekal email sahaja.
+- Clerk hidup: `@clerk/expo` 4.6.6 + `expo-secure-store`, `ClerkProvider` +
+  `tokenCache` dalam `src/app/_layout.tsx`, kunci dalam `.env.local`
+  (gitignored). `clerk doctor` hijau.
+- Sign-up guna `signUp.password()` + kod email sebenar; sign-in guna kod
+  email (`signIn.emailCode`, kekal email sahaja); modalVerify ada resend +
+  mesej ralat. Sosial (Google/Facebook/Apple) masih stub.
 - Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
-
 - Modal verifikasi hidup semula: crash `text-center` pada `TextInput`
   (bug `react-native-css` 3.0.7, bukan kod kita) diatasi dengan
   `style={{ textAlign: "center" }}` — sila uji semula di simulator iOS.
@@ -31,9 +33,11 @@
 1. Kad kursus (Bahasa Sepanyol / Bahasa Jepun, design `117z2d`) belum
    diimplement — design penuh ada dalam Downloads pemilik.
 2. Butang sosial (Google/Facebook/Apple) masih `onPress={() => {}}` —
-   sambung ke Clerk bila auth sebenar dipasang.
-3. Kod verifikasi kini demo sahaja (apa-apa 6 digit diterima) — ganti
-   dengan pengesahan Clerk bila backend sedia.
+   sambung ke `useSSO()` bila provider dashboard sedia.
+3. WAJIB sebelum uji auth di peranti: Dashboard → Native applications
+   (toggle Native API) + User & authentication (faktor Email, Password,
+   Email verification code); lepas sign-in pertama, bunuh app dan buka
+   semula untuk sahkan sesi kekal (tokenCache).
 
 ## Perangkap (jangan pijak)
 
