@@ -10,6 +10,7 @@ export default function SignIn() {
       footerText="New here?"
       footerLinkLabel="Create account"
       footerHref="/sign-up"
+      showPassword
     />
   );
 }

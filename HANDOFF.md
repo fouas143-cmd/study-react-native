@@ -10,16 +10,17 @@
 - Clerk hidup: `@clerk/expo` 4.6.6 + `expo-secure-store`, `ClerkProvider` +
   `tokenCache` dalam `src/app/_layout.tsx`, kunci dalam `.env.local`
   (gitignored). `clerk doctor` hijau.
-- Sign-up guna `signUp.password()` + kod email sebenar; sign-in guna kod
-  email (`signIn.emailCode`, kekal email sahaja); modalVerify ada resend +
-  mesej ralat. Sosial (Google/Facebook/Apple) masih stub.
+- Sign-up guna `signUp.password()` + kod email sebenar; sign-in guna
+  `signIn.password()` + fallback kod email (`signIn.emailCode`, bila perlu
+  second-factor); kedua-dua skrin tunjuk kotak password; modalVerify ada
+  resend + mesej ralat. Sosial (Google/Facebook/Apple) masih stub.
 - Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
 - Modal verifikasi hidup semula: crash `text-center` pada `TextInput`
   (bug `react-native-css` 3.0.7, bukan kod kita) diatasi dengan
   `style={{ textAlign: "center" }}` — sila uji semula di simulator iOS.
 - Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
-- Route hidup: `/`, `/onboarding`, `/sign-up` + `/sign-in` (baru, kongsi
-  `src/components/auth-screen.tsx`; email sahaja, tiada password).
+- Route hidup: `/`, `/onboarding`, `/sign-up` + `/sign-in` (kongsi
+  `src/components/auth-screen.tsx`; kedua-dua dengan password).
 - Maskot auth `mascot-signup.png` (crop parrot dari design `vzy24e`,
   latar putih sebati skrin) didaftar dalam `src/constants/images.ts`.
 - Modal verifikasi `verify-code-modal.tsx`: 6 digit, number-pad, KAV kekal

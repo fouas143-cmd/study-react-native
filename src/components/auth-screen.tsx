@@ -95,9 +95,23 @@ export function AuthScreen({
       }
       openVerifier();
     } else {
-      const { error } = await signIn.emailCode.sendCode({ emailAddress });
+      if (!password) {
+        setErrorMsg("Enter your password.");
+        return;
+      }
+      const { error } = await signIn.password({ emailAddress, password });
       if (error) {
         setErrorMsg(firstErrorMessage(error));
+        return;
+      }
+      if (signIn.status === "complete") {
+        await signIn.finalize();
+        router.replace("/");
+        return;
+      }
+      const { error: codeError } = await signIn.emailCode.sendCode();
+      if (codeError) {
+        setErrorMsg(firstErrorMessage(codeError));
         return;
       }
       openVerifier();
