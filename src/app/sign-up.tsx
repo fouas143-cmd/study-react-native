@@ -9,6 +9,7 @@ export default function SignUp() {
       footerText="Already have an account?"
       footerLinkLabel="Log in"
       footerHref="/sign-in"
+      showPassword
     />
   );
 }

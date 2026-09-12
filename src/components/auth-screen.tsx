@@ -21,6 +21,7 @@ type AuthScreenProps = {
   footerText: string;
   footerLinkLabel: string;
   footerHref: "/sign-in" | "/sign-up";
+  showPassword?: boolean;
 };
 
 /** Shared email + social auth layout used by sign-up and sign-in. */
@@ -31,8 +32,11 @@ export function AuthScreen({
   footerText,
   footerLinkLabel,
   footerHref,
+  showPassword = false,
 }: AuthScreenProps) {
   const [email, setEmail] = useState("alex@gmail.com");
+  const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [verifying, setVerifying] = useState(false);
 
   return (
@@ -77,6 +81,33 @@ export function AuthScreen({
               autoCorrect={false}
             />
           </View>
+
+          {showPassword ? (
+            <View className="mt-3 rounded-2xl border border-border bg-background px-5 py-3">
+              <Text className="type--body-medium text-muted">Password</Text>
+              <View className="flex-row items-center">
+                <TextInput
+                  className="mt-1 flex-1 font-poppins-medium text-[17px] leading-[24px] text-ink"
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="Enter your password"
+                  placeholderTextColor="#9CA3AF"
+                  secureTextEntry={!passwordVisible}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={passwordVisible ? "Hide password" : "Show password"}
+                  onPress={() => setPasswordVisible((v) => !v)}
+                >
+                  <Text className="font-poppins-semibold text-[14px] text-lingua-purple">
+                    {passwordVisible ? "Hide" : "Show"}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          ) : null}
 
           <TouchableOpacity
             className="mt-4 items-center justify-center rounded-2xl bg-lingua-purple py-4"
