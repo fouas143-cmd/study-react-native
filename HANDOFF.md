@@ -14,7 +14,9 @@
   skrin auth `Redirect "/"` bila sudah signed-in; sign-in MFA/second-factor
   guna `signIn.mfa.*` (bukan `emailCode`).
 - Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih; komit
-  `feat(auth): Clerk JS browser SSO social buttons plus route gating`.
+  `feat(auth): Clerk JS browser SSO social buttons plus route gating`, diikuti
+  `feat(auth): require minimum 8-character password` (guard kongsi di
+  `auth-screen.tsx`, mesej "Password must be at least 8 characters").
 - TODO/faktor dashboard tidak berubah: Native API toggle + Email/Password/Email
   code di Dashboard; hidupkan Google/Facebook/Apple di Social connections;
   lepas sign-in pertama, bunuh app dan buka semula untuk sahkan sesi kekal.
