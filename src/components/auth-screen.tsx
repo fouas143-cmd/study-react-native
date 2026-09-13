@@ -1,6 +1,6 @@
 import { images } from "@/constants/images";
-import { useSignIn, useSignUp } from "@clerk/expo";
-import { router } from "expo-router";
+import { useAuth, useSignIn, useSignUp, useSSO } from "@clerk/expo";
+import { Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
@@ -49,6 +49,8 @@ export function AuthScreen({
   const isSignUp = mode === "sign-up";
   const { signUp, fetchStatus: signUpStatus } = useSignUp();
   const { signIn, fetchStatus: signInStatus } = useSignIn();
+  const { startSSOFlow } = useSSO();
+  const { isLoaded: authLoaded, isSignedIn } = useAuth();
 
   const [email, setEmail] = useState("alex@gmail.com");
   const [password, setPassword] = useState("");
@@ -56,6 +58,7 @@ export function AuthScreen({
   const [verifying, setVerifying] = useState(false);
   const [verifyAttempt, setVerifyAttempt] = useState(0);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [ssoBusy, setSsoBusy] = useState<string | null>(null);
 
   const busy = (isSignUp ? signUpStatus : signInStatus) === "fetching";
 
@@ -109,6 +112,25 @@ export function AuthScreen({
         router.replace("/");
         return;
       }
+      if (
+        signIn.status === "needs_second_factor" ||
+        signIn.status === "needs_client_trust"
+      ) {
+        const emailFactor = signIn.supportedSecondFactors?.find(
+          (f) => f.strategy === "email_code",
+        );
+        if (!emailFactor) {
+          setErrorMsg("Additional verification needed. Try again.");
+          return;
+        }
+        const { error: mfaError } = await signIn.mfa.sendEmailCode();
+        if (mfaError) {
+          setErrorMsg(firstErrorMessage(mfaError));
+          return;
+        }
+        openVerifier();
+        return;
+      }
       const { error: codeError } = await signIn.emailCode.sendCode();
       if (codeError) {
         setErrorMsg(firstErrorMessage(codeError));
@@ -124,6 +146,15 @@ export function AuthScreen({
       if (error) return firstErrorMessage(error);
       if (signUp.status !== "complete") return "Verification incomplete. Try again.";
       await signUp.finalize();
+    } else if (
+      signIn.status === "needs_second_factor" ||
+      signIn.status === "needs_client_trust"
+    ) {
+      const { error } = await signIn.mfa.verifyEmailCode({ code });
+      if (error) return firstErrorMessage(error);
+      if ((signIn.status as string) !== "complete")
+        return "Additional verification needed. Try again.";
+      await signIn.finalize();
     } else {
       const { error } = await signIn.emailCode.verifyCode({ code });
       if (error) return firstErrorMessage(error);
@@ -140,8 +171,42 @@ export function AuthScreen({
       const { error } = await signUp.verifications.sendEmailCode();
       return error ? firstErrorMessage(error) : null;
     }
+    if (
+      signIn.status === "needs_second_factor" ||
+      signIn.status === "needs_client_trust"
+    ) {
+      const { error } = await signIn.mfa.sendEmailCode();
+      return error ? firstErrorMessage(error) : null;
+    }
     const { error } = await signIn.emailCode.sendCode();
     return error ? firstErrorMessage(error) : null;
+  }
+
+  async function handleSocial(
+    strategy: "oauth_google" | "oauth_facebook" | "oauth_apple",
+  ) {
+    if (busy || ssoBusy) return;
+    setErrorMsg(null);
+    setSsoBusy(strategy);
+    try {
+      const { createdSessionId, setActive, signUp: ssoSignUp } =
+        await startSSOFlow({ strategy });
+      if (createdSessionId && setActive) {
+        await setActive({ session: createdSessionId });
+        router.replace("/");
+      } else if (ssoSignUp?.status === "missing_requirements") {
+        setErrorMsg("Additional details required. Try email sign-up instead.");
+      }
+      // No session + no missing requirements = user cancelled; stay silent.
+    } catch {
+      setErrorMsg("Social sign-in failed. Try again.");
+    } finally {
+      setSsoBusy(null);
+    }
+  }
+
+  if (authLoaded && isSignedIn && !verifying) {
+    return <Redirect href="/" />;
   }
 
   return (
@@ -242,9 +307,27 @@ export function AuthScreen({
           </View>
 
           <View className="mt-4 gap-3">
-            <SocialButton label="Continue with Google" icon={<Text className="text-[22px] font-bold text-[#4285F4]">G</Text>} />
-            <SocialButton label="Continue with Facebook" icon={<Text className="text-[22px] font-bold text-[#1877F2]">f</Text>} />
-            <SocialButton label="Continue with Apple" icon={<Text className="text-[22px] text-ink"></Text>} />
+            <SocialButton
+              label="Continue with Google"
+              icon={<Text className="text-[22px] font-bold text-[#4285F4]">G</Text>}
+              onPress={() => void handleSocial("oauth_google")}
+              disabled={busy || ssoBusy !== null}
+              dimmed={ssoBusy !== null && ssoBusy !== "oauth_google"}
+            />
+            <SocialButton
+              label="Continue with Facebook"
+              icon={<Text className="text-[22px] font-bold text-[#1877F2]">f</Text>}
+              onPress={() => void handleSocial("oauth_facebook")}
+              disabled={busy || ssoBusy !== null}
+              dimmed={ssoBusy !== null && ssoBusy !== "oauth_facebook"}
+            />
+            <SocialButton
+              label="Continue with Apple"
+              icon={<Text className="text-[22px] text-ink"></Text>}
+              onPress={() => void handleSocial("oauth_apple")}
+              disabled={busy || ssoBusy !== null}
+              dimmed={ssoBusy !== null && ssoBusy !== "oauth_apple"}
+            />
           </View>
 
           <View className="flex-1" />
@@ -272,14 +355,27 @@ export function AuthScreen({
   );
 }
 
-function SocialButton({ label, icon }: { label: string; icon: React.ReactNode }) {
+function SocialButton({
+  label,
+  icon,
+  onPress,
+  disabled,
+  dimmed,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  onPress: () => void;
+  disabled?: boolean;
+  dimmed?: boolean;
+}) {
   return (
     <TouchableOpacity
-      className="flex-row items-center justify-center gap-3 rounded-2xl border border-border bg-background py-3.5"
+      className={`flex-row items-center justify-center gap-3 rounded-2xl border border-border bg-background py-3.5 ${dimmed ? "opacity-60" : ""}`}
       activeOpacity={0.7}
       accessibilityRole="button"
       accessibilityLabel={label}
-      onPress={() => {}}
+      onPress={onPress}
+      disabled={disabled}
     >
       {icon}
       <Text className="font-poppins-medium text-[16px] text-ink">{label}</Text>
