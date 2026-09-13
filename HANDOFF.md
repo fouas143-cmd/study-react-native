@@ -5,8 +5,12 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-13, Clerk auth)
+## Keadaan semasa (dikemas kini: 2026-09-13, learning content)
 
+- Learning content siap: `src/types/learning.ts` + `src/data/languages.ts`,
+  `units.ts`, `lessons.ts` (sample beginner ES + JA: goals, XP, activities,
+  vocab, phrases, aiTeacherPrompt voice-ready); `tsc` + `lint` bersih; komit
+  `feat(learning): add typed hardcoded content system`.
 - Clerk JS custom flow siap: `expo-auth-session` dipasang (SSO pelayar, Expo Go
   OK); butang Google/Facebook/Apple di `auth-screen.tsx` guna `useSSO()` +
   `setActive`, batal senyap, UI tak berubah; `/` gate (`Redirect` ke
