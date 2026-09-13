@@ -5,22 +5,36 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-12, Clerk auth)
+## Keadaan semasa (dikemas kini: 2026-09-13, Clerk auth)
+
+- Clerk JS custom flow siap: `expo-auth-session` dipasang (SSO pelayar, Expo Go
+  OK); butang Google/Facebook/Apple di `auth-screen.tsx` guna `useSSO()` +
+  `setActive`, batal senyap, UI tak berubah; `/` gate (`Redirect` ke
+  `/onboarding` bila signed-out, home ringkas + sign-out bila signed-in);
+  skrin auth `Redirect "/"` bila sudah signed-in; sign-in MFA/second-factor
+  guna `signIn.mfa.*` (bukan `emailCode`).
+- Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih; komit
+  `feat(auth): Clerk JS browser SSO social buttons plus route gating`.
+- TODO/faktor dashboard tidak berubah: Native API toggle + Email/Password/Email
+  code di Dashboard; hidupkan Google/Facebook/Apple di Social connections;
+  lepas sign-in pertama, bunuh app dan buka semula untuk sahkan sesi kekal.
 
 - Clerk hidup: `@clerk/expo` 4.6.6 + `expo-secure-store`, `ClerkProvider` +
   `tokenCache` dalam `src/app/_layout.tsx`, kunci dalam `.env.local`
   (gitignored). `clerk doctor` hijau.
 - Sign-up guna `signUp.password()` + kod email sebenar; sign-in guna
-  `signIn.password()` + fallback kod email (`signIn.emailCode`, bila perlu
-  second-factor); kedua-dua skrin tunjuk kotak password; modalVerify ada
-  resend + mesej ralat. Sosial (Google/Facebook/Apple) masih stub.
-- Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
+  `signIn.password()` + fallback kod email (`signIn.emailCode` first-factor,
+  `signIn.mfa.*` bila `needs_second_factor`/`needs_client_trust`); kedua-dua
+  skrin tunjuk kotak password; modal Verify ada resend + mesej ralat. Sosial
+  (Google/Facebook/Apple) guna `useSSO()` browser flow (`expo-auth-session`,
+  Expo Go OK) — perlu provider dihidupkan di Dashboard.
 - Modal verifikasi hidup semula: crash `text-center` pada `TextInput`
   (bug `react-native-css` 3.0.7, bukan kod kita) diatasi dengan
   `style={{ textAlign: "center" }}` — sila uji semula di simulator iOS.
-- Verify: `npx tsc --noEmit` bersih, `npm run lint` bersih.
-- Route hidup: `/`, `/onboarding`, `/sign-up` + `/sign-in` (kongsi
-  `src/components/auth-screen.tsx`; kedua-dua dengan password).
+- Route hidup: `/` (gate: signed-out → `/onboarding`, signed-in → home
+  ringkas + sign-out), `/onboarding`, `/sign-up` + `/sign-in` (kongsi
+  `src/components/auth-screen.tsx`; kedua-dua dengan password; `Redirect`
+  ke `/` bila sudah signed-in).
 - Maskot auth `mascot-signup.png` (crop parrot dari design `vzy24e`,
   latar putih sebati skrin) didaftar dalam `src/constants/images.ts`.
 - Modal verifikasi `verify-code-modal.tsx`: 6 digit, number-pad, KAV kekal
@@ -33,12 +47,11 @@
 
 1. Kad kursus (Bahasa Sepanyol / Bahasa Jepun, design `117z2d`) belum
    diimplement — design penuh ada dalam Downloads pemilik.
-2. Butang sosial (Google/Facebook/Apple) masih `onPress={() => {}}` —
-   sambung ke `useSSO()` bila provider dashboard sedia.
-3. WAJIB sebelum uji auth di peranti: Dashboard → Native applications
+2. WAJIB sebelum uji auth di peranti: Dashboard → Native applications
    (toggle Native API) + User & authentication (faktor Email, Password,
-   Email verification code); lepas sign-in pertama, bunuh app dan buka
-   semula untuk sahkan sesi kekal (tokenCache).
+   Email verification code + Social connections Google/Facebook/Apple);
+   lepas sign-in pertama, bunuh app dan buka semula untuk sahkan sesi
+   kekal (tokenCache).
 
 ## Perangkap (jangan pijak)
 
