@@ -35,6 +35,8 @@ function firstErrorMessage(error: ClerkFlowError): string {
   return error?.longMessage ?? error?.message ?? "Something went wrong. Try again.";
 }
 
+const MIN_PASSWORD_LENGTH = 8;
+
 /** Shared email + social auth layout used by sign-up and sign-in. */
 export function AuthScreen({
   mode,
@@ -75,12 +77,14 @@ export function AuthScreen({
       setErrorMsg("Enter your email address.");
       return;
     }
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      setErrorMsg(
+        `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
+      );
+      return;
+    }
 
     if (isSignUp) {
-      if (!password) {
-        setErrorMsg("Enter a password.");
-        return;
-      }
       const { error } = await signUp.password({ emailAddress, password });
       if (error) {
         setErrorMsg(firstErrorMessage(error));
@@ -98,10 +102,6 @@ export function AuthScreen({
       }
       openVerifier();
     } else {
-      if (!password) {
-        setErrorMsg("Enter your password.");
-        return;
-      }
       const { error } = await signIn.password({ emailAddress, password });
       if (error) {
         setErrorMsg(firstErrorMessage(error));
