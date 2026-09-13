@@ -1,5 +1,5 @@
 import { useAuth, useClerk, useUser } from "@clerk/expo";
-import { Redirect } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 
 export default function Index() {
@@ -21,6 +21,16 @@ export default function Index() {
       <Text className="type--body-medium mt-2 text-center text-muted">
         Welcome back{user?.firstName ? `, ${user.firstName}` : ""}!
       </Text>
+      <Pressable
+        className="btn btn--primary mt-6 w-full"
+        accessibilityRole="button"
+        accessibilityLabel="Choose a language"
+        onPress={() => router.push("/language-selection")}
+      >
+        <Text className="font-poppins-semibold text-[16px] text-white">
+          Choose a language
+        </Text>
+      </Pressable>
       <Pressable
         className="mt-6"
         accessibilityRole="button"
