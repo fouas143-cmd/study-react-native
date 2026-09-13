@@ -5,7 +5,14 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-13, learning content)
+## Keadaan semasa (dikemas kini: 2026-09-13, language selection)
+
+- Language selection siap: `src/app/language-selection.tsx` (ikut design
+  `04-language-selection-screen.png`: search + Popular + kad selectable +
+  butang Continue ganti "See all languages" + `images.earth` bawah); data dari
+  `src/data/languages.ts` (flag rosak `.png` berspasi dikembalikan ke emoji);
+  `/` ada butang "Choose a language" → `/language-selection`; `tsc` + `lint`
+  bersih; komit `feat(language): add language selection screen plus home link`.
 
 - Learning content siap: `src/types/learning.ts` + `src/data/languages.ts`,
   `units.ts`, `lessons.ts` (sample beginner ES + JA: goals, XP, activities,
