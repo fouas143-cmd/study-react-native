@@ -87,7 +87,9 @@ export function CustomTabBar({ children, style }: ViewProps) {
   return (
     <View
       onLayout={handleLayout}
-      style={[styles.bar, { paddingBottom: insets.bottom }, style]}
+      // TabList (asChild) injects its default row style via `style`.
+      // Our column layout must win, so styles.bar comes last.
+      style={[{ paddingBottom: insets.bottom }, style, styles.bar]}
     >
       <Animated.View
         pointerEvents="none"
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neutral.background,
     borderTopColor: colors.neutral.border,
     borderTopWidth: 1,
+    flexDirection: "column",
   },
   circle: {
     backgroundColor: colors.brand.purple,
