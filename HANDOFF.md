@@ -5,7 +5,9 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-13, language selection)
+## Keadaan semasa (dikemas kini: 2026-09-15, language persistence)
+
+- Language persistence siap: `src/store/language.ts` (Zustand + AsyncStorage `language-storage`, partialize id sahaja); `/` gate signed-in tanpa bahasa → `/language-selection`; Continue `setLanguage` + `replace("/")`; `/` ada butang "Clear saved language (test)" (`AsyncStorage.clear` + `replace`); UI sedia ada tak berubah; `tsc` + `lint` bersih; komit `feat(language): persist selection with zustand plus gate home route`.
 
 - Language selection siap: `src/app/language-selection.tsx` (ikut design
   `04-language-selection-screen.png`: search + Popular + kad selectable +
