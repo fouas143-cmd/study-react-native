@@ -5,7 +5,9 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-15, tab nav)
+## Keadaan semasa (dikemas kini: 2026-09-15, home screen)
+
+- Home siap: `src/app/(tabs)/home.tsx` ikut design `05-home-and-tab-navigation.png` (header flag + “Hola, {firstName}!” via `useUser` + streak `images.streakFire` + bell; kad Daily goal 15/20 + bar 75% + `images.treasure`; kad Continue ungu + `images.palace` + `A1 • Unit {order}`; Today’s plan 3 baris dari `data/*` (tajuk lesson + kira vocab) + kad Next up AI Video Call dengan avatar Unsplash placeholder); `tsc` + `lint` bersih.
 
 - Tab nav siap: `src/app/(tabs)/` (headless `expo-router/ui` Tabs + TabSlot + TabList asChild; `unstable_settings.initialRouteName="home"`; layout gate signed-out → `/onboarding`); `CustomTabBar` (`src/components/custom-tab-bar.tsx`: bulatan ungu aktif spring Reanimated ikut `useSegments`, ikon SF/Android `expo-symbols`, label hanya pada tab tak aktif) + `TabPlaceholder` kongsi; `/` kini gate tulen → `/(tabs)/home` (sign-out pindah ke placeholder Profile); `tsc` + `lint` bersih, export iOS hijau; komit `0d8ee55` + fix layout bar (`TabList` asChild selit gaya row → bar paksa column, butang timbul semula; komit `c1cb772` + animasi linear (`withTiming` 250ms `Easing.linear`, ganti spring melantun; komit `a779e49`).
 - TODO/faktor dashboard tidak berubah: Native API toggle + Email/Password/Email
