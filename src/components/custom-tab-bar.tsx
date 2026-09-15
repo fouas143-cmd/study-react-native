@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 import type { LayoutChangeEvent, PressableProps, ViewProps } from "react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -72,7 +73,10 @@ export function CustomTabBar({ children, style }: ViewProps) {
   const progress = useSharedValue(0);
 
   useEffect(() => {
-    progress.value = withSpring(activeIndex, { damping: 26, stiffness: 320 });
+    progress.value = withTiming(activeIndex, {
+      duration: 250,
+      easing: Easing.linear,
+    });
   }, [activeIndex, progress]);
 
   const circleStyle = useAnimatedStyle(() => ({
