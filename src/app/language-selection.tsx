@@ -1,5 +1,6 @@
 import { images } from "@/constants/images";
 import { languages } from "@/data/languages";
+import { useLanguageStore } from "@/store/language";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -8,7 +9,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LanguageSelection() {
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(languages[0]?.id ?? "");
+  const storedId = useLanguageStore((state) => state.selectedLanguageId);
+  const setLanguage = useLanguageStore((state) => state.setLanguage);
+  const [selectedId, setSelectedId] = useState(
+    storedId ?? languages[0]?.id ?? "",
+  );
 
   const visible = languages.filter((language) => {
     const q = query.trim().toLowerCase();
@@ -105,7 +110,10 @@ export default function LanguageSelection() {
           activeOpacity={0.8}
           accessibilityRole="button"
           accessibilityLabel="Confirm language selection"
-          onPress={() => router.push("/")}
+          onPress={() => {
+            setLanguage(selectedId);
+            router.replace("/");
+          }}
         >
           <Text className="font-poppins-semibold text-[17px] leading-[24px] text-white">
             Continue
