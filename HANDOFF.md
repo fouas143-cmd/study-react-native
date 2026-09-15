@@ -5,9 +5,10 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-15, sdk align)
+## Keadaan semasa (dikemas kini: 2026-09-15, tab nav)
 
-- SDK align siap: `npx expo install --fix` (12 pakej → versi jangkaan SDK 57; JS lama punca ExponentConstants/ExpoAsset tiada di runtime); plugin `expo-image` + `expo-web-browser` didaftar; `--check` hijau, export iOS hijau (1905 modul), `tsc` + `lint` bersih; komit `709a67a` + plugin.
+- Tab nav siap: `src/app/(tabs)/` (headless `expo-router/ui` Tabs + TabSlot + TabList asChild; `unstable_settings.initialRouteName="home"`; layout gate signed-out → `/onboarding`); `CustomTabBar` (`src/components/custom-tab-bar.tsx`: bulatan ungu aktif spring Reanimated ikut `useSegments`, ikon SF/Android `expo-symbols`, label hanya pada tab tak aktif) + `TabPlaceholder` kongsi; `/` kini gate tulen → `/(tabs)/home` (sign-out pindah ke placeholder Profile); `tsc` + `lint` bersih, export iOS hijau; komit `0d8ee55`.
+- TODO/faktor dashboard tidak berubah: Native API toggle + Email/Password/Email
 - Bundling fix siap: `app.json` 7 laluan aset → `assets/assets/images/` (icon, ios.icon, adaptive 3, favicon, splash); cache Metro dibersih + server restart; iOS bundle hijau `50954ms (1832 modul)`, sifar "Unable to resolve"; `tsc` + `lint` bersih; komit `fix(config): point app.json assets...`.
 - Language persistence siap: `src/store/language.ts` (Zustand + AsyncStorage `language-storage`, partialize id sahaja); `/` gate signed-in tanpa bahasa → `/language-selection`; Continue `setLanguage` + `replace("/")`; `/` ada butang "Clear saved language (test)" (`AsyncStorage.clear` + `replace`); UI sedia ada tak berubah; `tsc` + `lint` bersih; komit `feat(language): persist selection with zustand plus gate home route`.
 
