@@ -83,3 +83,6 @@
 6. Peraturan kekal: auto-commit ON (tanpa minta izin); penerangan
    RINGKAS selalu — format storytelling penuh hanya bila pemilik minta
    ("jelaskan"/"explain"/"terangkan").
+7. Lepas `npx expo install <pakej native>` (cth. async-storage), WAJIB
+   restart dev server dengan `npx expo start -c` — Metro yang sudah
+   berjalan tak nampak pakej baru ("Unable to resolve", 2026-09-15).
