@@ -5,8 +5,9 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-15, language persistence)
+## Keadaan semasa (dikemas kini: 2026-09-15, bundling fix)
 
+- Bundling fix siap: `app.json` 7 laluan aset → `assets/assets/images/` (icon, ios.icon, adaptive 3, favicon, splash); cache Metro dibersih + server restart; iOS bundle hijau `50954ms (1832 modul)`, sifar "Unable to resolve"; `tsc` + `lint` bersih; komit `fix(config): point app.json assets...`.
 - Language persistence siap: `src/store/language.ts` (Zustand + AsyncStorage `language-storage`, partialize id sahaja); `/` gate signed-in tanpa bahasa → `/language-selection`; Continue `setLanguage` + `replace("/")`; `/` ada butang "Clear saved language (test)" (`AsyncStorage.clear` + `replace`); UI sedia ada tak berubah; `tsc` + `lint` bersih; komit `feat(language): persist selection with zustand plus gate home route`.
 
 - Language selection siap: `src/app/language-selection.tsx` (ikut design
