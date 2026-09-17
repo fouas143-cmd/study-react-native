@@ -26,9 +26,6 @@ const DAILY_XP_GOAL = 20;
 const XP_EARNED_TODAY = 15;
 const STREAK_DAYS = 12;
 const BEGINNER_LEVEL = "A1";
-// Placeholder tutor photo (no local asset yet).
-const TUTOR_AVATAR =
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80";
 
 const GREETINGS: Record<string, string> = {
   es: "Hola",
@@ -228,30 +225,6 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        {/* Next up: AI video call */}
-        <View className="mt-4 flex-row items-center rounded-3xl bg-[#EAF6EC] p-5">
-          <View className="flex-1">
-            <Text className="type--body-medium text-muted">Next up</Text>
-            <Text className="mt-1 font-poppins-bold text-[20px] leading-[26px] text-ink">
-              AI Video Call
-            </Text>
-            <Text className="type--body-medium mt-0.5 text-muted">
-              Practice speaking
-            </Text>
-          </View>
-          <Image
-            source={{ uri: TUTOR_AVATAR }}
-            style={{ width: 76, height: 76, borderRadius: 38 }}
-            accessibilityLabel="AI tutor"
-          />
-          <View className="-ml-6 h-12 w-12 items-center justify-center self-center rounded-full border-[3px] border-white bg-lingua-green">
-            <SymbolView
-              name={{ ios: "video.fill", android: "videocam", web: "videocam" }}
-              size={20}
-              tintColor="#FFFFFF"
-            />
-          </View>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
