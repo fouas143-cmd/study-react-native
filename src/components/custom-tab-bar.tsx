@@ -60,6 +60,7 @@ export const TABS: TabMeta[] = [
 const CIRCLE_SIZE = 52;
 const BAR_HEIGHT = 64;
 
+/** Renders the tab bar container and animates its active-tab indicator. */
 export function CustomTabBar({ children, style }: ViewProps) {
   const insets = useSafeAreaInsets();
   const segments = useSegments();
@@ -84,6 +85,7 @@ export function CustomTabBar({ children, style }: ViewProps) {
     opacity: tabWidth > 0 ? 1 : 0,
   }));
 
+  /** Records the rendered bar width used to position the active indicator. */
   function handleLayout(event: LayoutChangeEvent) {
     setBarWidth(event.nativeEvent.layout.width);
   }
@@ -116,6 +118,7 @@ type TabButtonProps = Pick<PressableProps, "onPress" | "onLongPress"> & {
   isFocused?: boolean;
 };
 
+/** Renders an accessible icon-and-label control for one tab. */
 export function TabButton({ label, icon, isFocused, onPress, onLongPress }: TabButtonProps) {
   return (
     <Pressable

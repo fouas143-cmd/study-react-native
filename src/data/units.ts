@@ -22,6 +22,7 @@ export const units: Unit[] = [
   },
 ];
 
+/** Returns a language's units in their configured display order. */
 export function getUnitsForLanguage(languageId: string): Unit[] {
   return units
     .filter((unit) => unit.languageId === languageId)

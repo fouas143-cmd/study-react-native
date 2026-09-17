@@ -8,6 +8,7 @@ type TabPlaceholderProps = {
   children?: ReactNode;
 };
 
+/** Renders consistent placeholder content for unfinished tab screens. */
 export function TabPlaceholder({ title, subtitle, children }: TabPlaceholderProps) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>

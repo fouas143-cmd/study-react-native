@@ -2,6 +2,7 @@ import { useLanguageStore } from "@/store/language";
 import { useAuth } from "@clerk/expo";
 import { Redirect } from "expo-router";
 
+/** Routes visitors according to authentication and language selection state. */
 export default function Index() {
   const { isLoaded, isSignedIn } = useAuth();
   const selectedLanguageId = useLanguageStore(

@@ -26,6 +26,7 @@ export const languages: SupportedLanguage[] = [
 
 export const languageIds = languages.map((language) => language.id);
 
+/** Returns the supported language with the given stable identifier. */
 export function getLanguage(id: string): SupportedLanguage | undefined {
   return languages.find((language) => language.id === id);
 }

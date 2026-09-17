@@ -216,18 +216,21 @@ export const lessons: Lesson[] = [
   },
 ];
 
+/** Returns a unit's lessons in their configured display order. */
 export function getLessonsForUnit(unitId: string): Lesson[] {
   return lessons
     .filter((lesson) => lesson.unitId === unitId)
     .sort((a, b) => a.order - b.order);
 }
 
+/** Returns a language's lessons in their configured display order. */
 export function getLessonsForLanguage(languageId: string): Lesson[] {
   return lessons
     .filter((lesson) => lesson.languageId === languageId)
     .sort((a, b) => a.order - b.order);
 }
 
+/** Returns the lesson with the given stable identifier. */
 export function getLesson(id: string): Lesson | undefined {
   return lessons.find((lesson) => lesson.id === id);
 }

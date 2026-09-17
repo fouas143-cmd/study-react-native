@@ -2,6 +2,7 @@ import { TabPlaceholder } from "@/components/tab-placeholder";
 import { useClerk } from "@clerk/expo";
 import { Pressable, Text } from "react-native";
 
+/** Renders the learner profile placeholder and sign-out action. */
 export default function ProfileScreen() {
   const { signOut } = useClerk();
 

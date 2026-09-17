@@ -32,6 +32,7 @@ const GREETINGS: Record<string, string> = {
   ja: "こんにちは",
 };
 
+/** Renders the learner dashboard for the currently selected language. */
 export default function HomeScreen() {
   const { user } = useUser();
   const selectedLanguageId = useLanguageStore(
@@ -78,6 +79,7 @@ export default function HomeScreen() {
     },
   ];
 
+  /** Opens the lesson list from a dashboard action. */
   function goToLearn() {
     router.push("/(tabs)/learn");
   }

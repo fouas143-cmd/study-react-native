@@ -7,6 +7,7 @@ export const unstable_settings = {
   initialRouteName: "home",
 };
 
+/** Renders the authenticated bottom-tab navigation shell. */
 export default function TabsLayout() {
   const { isLoaded, isSignedIn } = useAuth();
 

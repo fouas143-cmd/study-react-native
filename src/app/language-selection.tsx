@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+/** Lets the learner search for, choose, and persist a course language. */
 export default function LanguageSelection() {
   const [query, setQuery] = useState("");
   const storedId = useLanguageStore((state) => state.selectedLanguageId);
