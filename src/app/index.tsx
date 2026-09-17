@@ -1,13 +1,16 @@
-import { useAuth, useClerk, useUser } from "@clerk/expo";
+import { useLanguageStore } from "@/store/language";
+import { useAuth } from "@clerk/expo";
 import { Redirect } from "expo-router";
-import { Pressable, Text, View } from "react-native";
 
+/** Routes visitors according to authentication and language selection state. */
 export default function Index() {
   const { isLoaded, isSignedIn } = useAuth();
-  const { user } = useUser();
-  const { signOut } = useClerk();
+  const selectedLanguageId = useLanguageStore(
+    (state) => state.selectedLanguageId,
+  );
+  const hasHydrated = useLanguageStore((state) => state.hasHydrated);
 
-  if (!isLoaded) {
+  if (!isLoaded || !hasHydrated) {
     return null;
   }
 
@@ -15,22 +18,9 @@ export default function Index() {
     return <Redirect href="/onboarding" />;
   }
 
-  return (
-    <View className="flex-1 items-center justify-center bg-background px-6">
-      <Text className="type--h1 text-center text-lingua-purple">Lingua</Text>
-      <Text className="type--body-medium mt-2 text-center text-muted">
-        Welcome back{user?.firstName ? `, ${user.firstName}` : ""}!
-      </Text>
-      <Pressable
-        className="mt-6"
-        accessibilityRole="button"
-        accessibilityLabel="Sign out"
-        onPress={() => void signOut()}
-      >
-        <Text className="font-poppins-semibold text-[16px] text-lingua-purple">
-          Sign out
-        </Text>
-      </Pressable>
-    </View>
-  );
+  if (!selectedLanguageId) {
+    return <Redirect href="/language-selection" />;
+  }
+
+  return <Redirect href="/(tabs)/home" />;
 }

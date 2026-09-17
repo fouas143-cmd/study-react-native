@@ -5,8 +5,26 @@
 > `docs/handoff/`. Keputusan kekal: `docs/adr/`. Jangan simpan rahsia di sini.
 > Pemilik TIDAK akan suruh tulis handoff — peraturan ini jalan sendiri.
 
-## Keadaan semasa (dikemas kini: 2026-09-13, Clerk auth)
+## Keadaan semasa (dikemas kini: 2026-09-15, home screen)
 
+- Home siap (kemas kini): gaya `style` statik (streak 24px, treasure 96px, palace 132×158, bar fill) dipindah ke `className`; kekal `style` hanya untuk SafeAreaView, ScrollView contentContainerStyle, dan lebar bar dinamik (pengecualian AGENTS.md); `tsc` + `lint` bersih.
+
+- Tab nav siap: `src/app/(tabs)/` (headless `expo-router/ui` Tabs + TabSlot + TabList asChild; `unstable_settings.initialRouteName="home"`; layout gate signed-out → `/onboarding`); `CustomTabBar` (`src/components/custom-tab-bar.tsx`: bulatan ungu aktif spring Reanimated ikut `useSegments`, ikon SF/Android `expo-symbols`, label hanya pada tab tak aktif) + `TabPlaceholder` kongsi; `/` kini gate tulen → `/(tabs)/home` (sign-out pindah ke placeholder Profile); `tsc` + `lint` bersih, export iOS hijau; komit `0d8ee55` + fix layout bar (`TabList` asChild selit gaya row → bar paksa column, butang timbul semula; komit `c1cb772` + animasi linear (`withTiming` 250ms `Easing.linear`, ganti spring melantun; komit `a779e49`).
+- TODO/faktor dashboard tidak berubah: Native API toggle + Email/Password/Email
+- Bundling fix siap: `app.json` 7 laluan aset → `assets/assets/images/` (icon, ios.icon, adaptive 3, favicon, splash); cache Metro dibersih + server restart; iOS bundle hijau `50954ms (1832 modul)`, sifar "Unable to resolve"; `tsc` + `lint` bersih; komit `fix(config): point app.json assets...`.
+- Language persistence siap: `src/store/language.ts` (Zustand + AsyncStorage `language-storage`, partialize id sahaja); `/` gate signed-in tanpa bahasa → `/language-selection`; Continue `setLanguage` + `replace("/")`; `/` ada butang "Clear saved language (test)" (`AsyncStorage.clear` + `replace`); UI sedia ada tak berubah; `tsc` + `lint` bersih; komit `feat(language): persist selection with zustand plus gate home route`.
+
+- Language selection siap: `src/app/language-selection.tsx` (ikut design
+  `04-language-selection-screen.png`: search + Popular + kad selectable +
+  butang Continue ganti "See all languages" + `images.earth` bawah); data dari
+  `src/data/languages.ts` (flag rosak `.png` berspasi dikembalikan ke emoji);
+  `/` ada butang "Choose a language" → `/language-selection`; `tsc` + `lint`
+  bersih; komit `feat(language): add language selection screen plus home link`.
+
+- Learning content siap: `src/types/learning.ts` + `src/data/languages.ts`,
+  `units.ts`, `lessons.ts` (sample beginner ES + JA: goals, XP, activities,
+  vocab, phrases, aiTeacherPrompt voice-ready); `tsc` + `lint` bersih; komit
+  `feat(learning): add typed hardcoded content system`.
 - Clerk JS custom flow siap: `expo-auth-session` dipasang (SSO pelayar, Expo Go
   OK); butang Google/Facebook/Apple di `auth-screen.tsx` guna `useSSO()` +
   `setActive`, batal senyap, UI tak berubah; `/` gate (`Redirect` ke
@@ -70,3 +88,6 @@
 6. Peraturan kekal: auto-commit ON (tanpa minta izin); penerangan
    RINGKAS selalu — format storytelling penuh hanya bila pemilik minta
    ("jelaskan"/"explain"/"terangkan").
+7. Lepas `npx expo install <pakej native>` (cth. async-storage), WAJIB
+   restart dev server dengan `npx expo start -c` — Metro yang sudah
+   berjalan tak nampak pakej baru ("Unable to resolve", 2026-09-15).
