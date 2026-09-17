@@ -7,7 +7,7 @@
 
 ## Keadaan semasa (dikemas kini: 2026-09-15, home screen)
 
-- Home siap (kemas kini): kad Next up AI Video Call dibuang dari `src/app/(tabs)/home.tsx` + const avatar Unsplash placeholder dibuang; `tsc` + `lint` bersih.
+- Home siap (kemas kini): gaya `style` statik (streak 24px, treasure 96px, palace 132×158, bar fill) dipindah ke `className`; kekal `style` hanya untuk SafeAreaView, ScrollView contentContainerStyle, dan lebar bar dinamik (pengecualian AGENTS.md); `tsc` + `lint` bersih.
 
 - Tab nav siap: `src/app/(tabs)/` (headless `expo-router/ui` Tabs + TabSlot + TabList asChild; `unstable_settings.initialRouteName="home"`; layout gate signed-out → `/onboarding`); `CustomTabBar` (`src/components/custom-tab-bar.tsx`: bulatan ungu aktif spring Reanimated ikut `useSegments`, ikon SF/Android `expo-symbols`, label hanya pada tab tak aktif) + `TabPlaceholder` kongsi; `/` kini gate tulen → `/(tabs)/home` (sign-out pindah ke placeholder Profile); `tsc` + `lint` bersih, export iOS hijau; komit `0d8ee55` + fix layout bar (`TabList` asChild selit gaya row → bar paksa column, butang timbul semula; komit `c1cb772` + animasi linear (`withTiming` 250ms `Easing.linear`, ganti spring melantun; komit `a779e49`).
 - TODO/faktor dashboard tidak berubah: Native API toggle + Email/Password/Email

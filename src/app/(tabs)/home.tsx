@@ -100,7 +100,7 @@ export default function HomeScreen() {
           </Text>
           <Image
             source={images.streakFire}
-            style={{ width: 24, height: 24 }}
+            className="h-6 w-6"
             resizeMode="contain"
             accessibilityIgnoresInvertColors
           />
@@ -126,17 +126,14 @@ export default function HomeScreen() {
             </Text>
             <View className="mt-3 h-2.5 overflow-hidden rounded-full bg-[#F3E2C7]">
               <View
-                style={{
-                  width: `${progress * 100}%`,
-                  backgroundColor: colors.semantic.streak,
-                }}
-                className="h-full rounded-full"
+                style={{ width: `${progress * 100}%` }}
+                className="h-full rounded-full bg-streak"
               />
             </View>
           </View>
           <Image
             source={images.treasure}
-            style={{ width: 96, height: 96 }}
+            className="h-24 w-24"
             resizeMode="contain"
             accessibilityIgnoresInvertColors
           />
@@ -166,7 +163,7 @@ export default function HomeScreen() {
           </View>
           <Image
             source={images.palace}
-            style={{ width: 132, height: 158 }}
+            className="h-[158px] w-[132px]"
             resizeMode="contain"
             accessibilityIgnoresInvertColors
           />
